@@ -69,7 +69,8 @@ InternationalPhoneNumberInput({
       this.keyboardAction,
       this.keyboardType = TextInputType.phone,
       this.initialValue,
-      this.hintText = 'Phone number',
+      this.fallbackHintText,
+      @Deprecated('Use fallbackHintText instead.') this.hintText = 'Phone number',
       this.errorMessage = 'Invalid phone number',
       this.selectorButtonOnErrorPadding = 24,
       this.spaceBetweenSelectorAndTextField = 12,
@@ -125,6 +126,7 @@ SelectorConfig({
 | inputBorder                         | InputBorder            |        null               |
 | inputDecoration                     | InputDecoration        |        null               |
 | initialValue                        | PhoneNumber            |        null               |
+| fallbackHintText                    | String                 |     Phone Number          |
 | hintText                            | String                 |     Phone Number          |
 | selectorButtonOnErrorPadding        | double                 |        24                 |
 | spaceBetweenSelectorAndTextField    | double                 |        12                 |

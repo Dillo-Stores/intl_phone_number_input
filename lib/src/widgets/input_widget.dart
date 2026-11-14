@@ -201,9 +201,14 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   /// ```
   final PhoneNumber? initialValue;
 
-  /// Placeholder text displayed when the input is empty.
+  /// Hint text used when the selected country has no country-specific hint.
   ///
-  /// Defaults to 'Phone number'.
+  /// Country-specific hints take precedence. This value is not applied when
+  /// [inputDecoration] is provided. Defaults to 'Phone number'.
+  final String? fallbackHintText;
+
+  /// Legacy alias for [fallbackHintText].
+  @Deprecated('Use fallbackHintText instead.')
   final String? hintText;
 
   /// Error message displayed when validation fails.
@@ -367,6 +372,8 @@ class InternationalPhoneNumberInput extends StatefulWidget {
       this.keyboardAction,
       this.keyboardType = TextInputType.phone,
       this.initialValue,
+      this.fallbackHintText,
+      @Deprecated('Use fallbackHintText instead.')
       this.hintText = 'Phone number',
       this.hintCharacter,
       this.errorMessage = 'Invalid phone number',
@@ -407,6 +414,9 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
   List<Country> countries = [];
   bool isNotValid = true;
   String? _hintText;
+
+  String get _fallbackHintText =>
+      widget.fallbackHintText ?? widget.hintText ?? 'Phone number';
 
   @override
   void initState() {
@@ -504,9 +514,9 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
           _hintText = hint;
         });
       } else {
-        if (_hintText != widget.hintText) {
+        if (_hintText != _fallbackHintText) {
           setState(() {
-            _hintText = widget.hintText;
+            _hintText = _fallbackHintText;
           });
         }
       }
@@ -579,7 +589,7 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
     InputDecoration value = decoration ??
         InputDecoration(
           border: widget.inputBorder ?? UnderlineInputBorder(),
-          hintText: _hintText ?? widget.hintText,
+          hintText: _hintText ?? _fallbackHintText,
         );
 
     if (widget.selectorConfig.setSelectorButtonAsPrefixIcon) {

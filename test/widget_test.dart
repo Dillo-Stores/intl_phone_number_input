@@ -32,13 +32,34 @@ void main() {
           home: Scaffold(
             body: InternationalPhoneNumberInput(
               onInputChanged: (PhoneNumber number) {},
-              hintText: hintText,
+              inputDecoration: InputDecoration(
+                hintText: hintText,
+              ),
             ),
           ),
         ),
       );
 
       expect(find.text(hintText), findsOneWidget);
+    });
+
+    testWidgets('Should show fallback hint when country has no default hint',
+        (WidgetTester tester) async {
+      const fallbackHintText = 'Enter your phone number';
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: InternationalPhoneNumberInput(
+              onInputChanged: (PhoneNumber number) {},
+              initialValue: PhoneNumber(isoCode: 'AQ'),
+              fallbackHintText: fallbackHintText,
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text(fallbackHintText), findsOneWidget);
     });
 
     testWidgets('Should handle text input', (WidgetTester tester) async {
